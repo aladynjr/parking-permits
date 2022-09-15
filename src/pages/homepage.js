@@ -1,65 +1,42 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { auth } from "../firebase-config";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import GetStudentData from '../utilities/getstudentdata'
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import LoadingButton from '@mui/lab/LoadingButton';
+import InputLabel from '@mui/material/InputLabel';
+
+import { Divider } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+
+import AddRegistration from '../components/addregistration';
+import RegistrationsList from '../components/registrationslist';
 function HomePage() {
   const navigate = useNavigate();
 
-  const logout = async () => {
-    await signOut(auth);
-
-    localStorage.removeItem('isLogged');
-    navigate("/")
-
-  };
+  
 
 
-  const [studentID, setStudentID] = useState(null);
 
-  onAuthStateChanged(auth, (currentUser) => {
-    if (currentUser) {
-      setStudentID(currentUser.uid)
-    }
-  });
-
-console.log({studentID})
-  const [studentData, setStudentData] = useState(null)
-
-  const FetchStudentData = async () => {
-    try {
-    const response = await fetch(`http://localhost:8080/api/student/${studentID}`);
-    const jsonData = await response.json();
-
-      setStudentData(jsonData);
-
-    } catch (err) {
-      console.error(err.message);
-  }
-  }
-
-  useEffect(()=>{
-    if(!studentID) return;
-    FetchStudentData()
-  },[studentID])
-
-console.log(studentData)
+  const [registrations, setRegistrations] = useState(null);
 
   return (
-    <div>Home Page
-<p>
-{studentData?.student_name}
-
-</p>
-<p>
-{ studentData?.student_email}
-
-</p>
+    <div>
 
 
-<Button variant="contained" color="error" style={{position:'absolute', bottom:'10px', right:'30px'}} onClick={() => { logout() }} >logout</Button>
 
+
+
+<AddRegistration  setRegistrations={setRegistrations} />
+
+<Divider style={{width:'70%', margin:'auto', marginBlock:'60px'}} />
+<RegistrationsList registrations={registrations} setRegistrations={setRegistrations} />
 
 
     </div>

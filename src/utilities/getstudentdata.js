@@ -19,7 +19,7 @@ console.log({studentID})
   const FetchStudentData = async () => {
     if(!studentID) return;
     try {
-      const response = await fetch(`http://localhost:8080/api/student/${studentID}`);
+      const response = await fetch(process.env.REACT_APP_HOST+`/api/student/${studentID}`);
       const jsonData = await response.json();
 
       setStudentData(jsonData);

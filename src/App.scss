@@ -9,3 +9,18 @@
     height: 90vh;
     justify-content: space-evenly;
 }
+
+.registrationFields{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    width: 70vw!important;
+    min-width: 500px!important;
+    margin:auto;
+}
+
+body {
+  margin-block: 100px;
+}

@@ -46,7 +46,7 @@ function Join({ setJoinModal }) {
         student_state,
         student_school
       };
-      const response = await fetch("http://localhost:8080/api/student", {
+      const response = await fetch(process.env.REACT_APP_HOST+"/api/student", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
