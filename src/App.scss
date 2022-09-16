@@ -24,3 +24,8 @@
 body {
   margin-block: 100px;
 }
+
+.animate__pulse{
+  animation-iteration-count: infinite!important;
+  color: cornflowerblue!important; 
+}

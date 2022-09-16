@@ -25,6 +25,7 @@ function AddRegistration({ setRegistrations }) {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const [apartmentNumbersOptions, setApartmentNumbersOptions] = useState([]);
+const [startingDateOptions, setStartingDateOptions] = useState([]);
 
   useEffect(() => {
     setApartmentNumbersOptions([])
@@ -34,6 +35,30 @@ function AddRegistration({ setRegistrations }) {
     }
     setApartmentNumbersOptions(arr);
   }, [])
+
+
+
+
+function AddTheNextSevenDaysInArrayINThisFormatDayNameMonthNameDayNumber(){
+  var arr = [];
+  var d = new Date();
+  for (var i = 0; i < 7; i++) {
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    var dayName = d.toLocaleString('default', { weekday: 'long' });
+    var monthName = d.toLocaleString('default', { month: 'long' });
+    arr.push( (dayName).substring(0,3) + ' ' + monthName.substring(0,3) + ' ' + day);
+    d.setDate(d.getDate() + 1);
+  }
+  setStartingDateOptions(arr)
+}
+
+useEffect(()=>{
+  AddTheNextSevenDaysInArrayINThisFormatDayNameMonthNameDayNumber()
+},[])
+
+
 
   const handleChange = (event, setValue) => {
     setValue(event.target.value);
@@ -98,13 +123,14 @@ function Remove (day){
   arr = arr.filter(e => e !== day)
   setActiveDays(arr);
 }
-console.log( {registration_hours_until_cancel,
-  registration_active_days})
+
+
   return (
     <div>
 
       <h2>Schedule Registration</h2>
       <div className='registrationFields' >
+        <p>Registration Info</p>
         <TextField label="Licence Plate" value={registration_licence_plate} onChange={(e) => { setLicencePlate(e.target.value) }} variant="outlined" />
 
         {(apartmentNumbersOptions?.length > 0) && <Autocomplete disablePortal id="combo-box-demo" options={apartmentNumbersOptions}
@@ -118,12 +144,9 @@ console.log( {registration_hours_until_cancel,
           <InputLabel id="demo-simple-select-label">Starting Date</InputLabel>
           <Select label="Starting Date" value={registration_start_date} onChange={(e) => handleChange(e, setStartDate)} >
             {/* <MenuItem value="Right now" > Right now</MenuItem> */}
-            <MenuItem value="Thu Sep 15">Thu Sep 15</MenuItem>
-            <MenuItem value="Fri Sep 16">Fri Sep 16</MenuItem>
-            <MenuItem value="Sat Sep 17">Sat Sep 17</MenuItem>
-            <MenuItem value="Sun Sep 18">Sun Sep 18</MenuItem>
-            <MenuItem value="Mon Sep 19">Mon Sep 19</MenuItem>
-            <MenuItem value="Tue Sep 20">Tue Sep 20</MenuItem>
+            {startingDateOptions.map((date)=>{return(
+              <MenuItem value={date}>{date}</MenuItem>
+            )})}
           </Select>
         </FormControl>
 
@@ -255,9 +278,10 @@ console.log( {registration_hours_until_cancel,
 
 
         <TextField value={registration_contact_phone} onChange={(e) => setContactPhone(e.target.value)} label="Contact Phone" variant="outlined" />
+        <p>Scheduling Info</p>
 
         <TextField value={registration_hours_until_cancel} onChange={(e) => { setHoursUntilCancel(e.target.value) }} type={"number"} label='Hours Until Cancelling' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
-        <div style={{marginBlock:'50px'}} >
+        <div style={{marginBottom:'50px', marginTop:'20px'}} >
           <FormLabel component="legend">Active Days</FormLabel>
          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', margin:'auto',marginTop:'13px', width:'70%'}} >
             <FormControlLabel
