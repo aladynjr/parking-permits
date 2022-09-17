@@ -1,5 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;900&display=swap');
+
 .App {
   text-align: center;
+  font-family: 'Inter', sans-serif;
+
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 27px;
+}
+p, div {
+  font-weight: 300;
+}
+
+i {
+  margin-block: 20px;
 }
 
 .joinform{
@@ -16,8 +32,8 @@
     align-items: center;
     justify-content: space-evenly;
     
-    width: 70vw!important;
-    min-width: 500px!important;
+    width: 100%!important;
+    //min-width: 500px!important;
     margin:auto;
 }
 
@@ -28,4 +44,10 @@ body {
 .animate__pulse{
   animation-iteration-count: infinite!important;
   color: cornflowerblue!important; 
+}
+
+.registrationField {
+  margin-block: 17px!important;
+  width:70%!important;
+  max-width: 500px!important;
 }

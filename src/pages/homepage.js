@@ -27,13 +27,13 @@ function HomePage() {
   const [registrations, setRegistrations] = useState(null);
 
   return (
-    <div>
+    <div >
 
 
+<h1 style={{marginBottom:'50px'}}>Digital Parking Permit Registration Scheduler</h1>
 
 
-
-<AddRegistration  setRegistrations={setRegistrations} />
+ <AddRegistration  setRegistrations={setRegistrations} /> 
 
 <Divider style={{width:'70%', margin:'auto', marginBlock:'60px'}} />
 <RegistrationsList registrations={registrations} setRegistrations={setRegistrations} />

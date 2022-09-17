@@ -17,10 +17,18 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import FormHelperText from '@mui/material/FormHelperText';
+import { Divider } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import {BsFillPlayFill} from 'react-icons/bs'
+import {AiFillLock} from 'react-icons/ai'
 
+import {MdEmail} from 'react-icons/md'
+
+import {AiFillPhone} from 'react-icons/ai'
+
+import {MdAccessTimeFilled} from 'react-icons/md'
 
 function AddRegistration({ setRegistrations }) {
-
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -128,21 +136,24 @@ function Remove (day){
   return (
     <div>
 
-      <h2>Schedule Registration</h2>
+      <h2>Schedule a Vehicle Registration</h2>
       <div className='registrationFields' >
-        <p>Registration Info</p>
-        <TextField label="Licence Plate" value={registration_licence_plate} onChange={(e) => { setLicencePlate(e.target.value) }} variant="outlined" />
+        <Divider textAlign='center' style={{width:'70%', marginBlock:'30px'}} > <i >Registration Info</i></Divider> 
 
-        {(apartmentNumbersOptions?.length > 0) && <Autocomplete disablePortal id="combo-box-demo" options={apartmentNumbersOptions}
+        <TextField InputProps={{
+          startAdornment: (<InputAdornment position="start"><AiFillCar /></InputAdornment>),}} className='registrationField' label="Licence Plate" value={registration_licence_plate} onChange={(e) => { setLicencePlate(e.target.value) }} variant="outlined" />
+
+        {(apartmentNumbersOptions?.length > 0) && <Autocomplete  className='registrationField' disablePortal id="combo-box-demo" options={apartmentNumbersOptions}
           style={{ width: '70vw', maxWidth: '500px' }}
           renderInput={(params) => <TextField {...params} label="Appartment" />}
           onChange={(e, value) => { setApartmentNumber(value?.label) }}
         />}
-        <TextField value={registration_passcode} onChange={(e) => { setPasscode(e.target.value) }} label="Passcode" variant="outlined" />
+        <TextField InputProps={{
+          startAdornment: (<InputAdornment position="start"><AiFillLock /></InputAdornment>),}} className='registrationField' value={registration_passcode} onChange={(e) => { setPasscode(e.target.value) }} label="Passcode" variant="outlined" />
 
-        <FormControl style={{ width: '300px' }} >
-          <InputLabel id="demo-simple-select-label">Starting Date</InputLabel>
-          <Select label="Starting Date" value={registration_start_date} onChange={(e) => handleChange(e, setStartDate)} >
+        <FormControl className='registrationField'   >
+          <InputLabel  id="demo-simple-select-label">Starting Date</InputLabel>
+          <Select  label="Starting Date" value={registration_start_date} onChange={(e) => handleChange(e, setStartDate)} >
             {/* <MenuItem value="Right now" > Right now</MenuItem> */}
             {startingDateOptions.map((date)=>{return(
               <MenuItem value={date}>{date}</MenuItem>
@@ -151,7 +162,7 @@ function Remove (day){
         </FormControl>
 
 
-        <FormControl style={{ width: '300px' }} >
+        <FormControl className='registrationField' >
           <InputLabel id="demo-simple-select-label">Starting Time</InputLabel>
           <Select value={registration_start_time} onChange={(e) => handleChange(e, setStartTime)} label="Starting Time" >
             <MenuItem value="12:00 AM">12:00 AM</MenuItem>
@@ -251,7 +262,7 @@ function Remove (day){
         </FormControl>
 
 
-        <FormControl style={{ width: '300px' }} >
+        <FormControl className='registrationField' >
           <InputLabel id="demo-simple-select-label">Parking Duration</InputLabel>
           <Select value={registration_parking_duration} onChange={(e) => handleChange(e, setParkingDuration)} label='Parking Duration' >
             <MenuItem value="1 day">1 day</MenuItem>
@@ -274,14 +285,20 @@ function Remove (day){
         </FormControl>
 
 
-        <TextField value={registration_contact_email} onChange={(e) => setContactEmail(e.target.value)} label="Contact Email" variant="outlined" />
+        <TextField InputProps={{
+          startAdornment: (<InputAdornment position="start"><MdEmail /></InputAdornment>),}} className='registrationField' value={registration_contact_email} onChange={(e) => setContactEmail(e.target.value)} label="Contact Email" variant="outlined" />
 
 
-        <TextField value={registration_contact_phone} onChange={(e) => setContactPhone(e.target.value)} label="Contact Phone" variant="outlined" />
-        <p>Scheduling Info</p>
+        <TextField InputProps={{
+          startAdornment: (<InputAdornment position="start"><AiFillPhone /></InputAdornment>),}}  className='registrationField' value={registration_contact_phone} onChange={(e) => setContactPhone(e.target.value)} label="Contact Phone" variant="outlined" />
+       <Divider textAlign='center' style={{width:'70%', marginBlock:'30px'}} > <i >Scheduling Info</i></Divider> 
+        
+       
 
-        <TextField value={registration_hours_until_cancel} onChange={(e) => { setHoursUntilCancel(e.target.value) }} type={"number"} label='Hours Until Cancelling' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
-        <div style={{marginBottom:'50px', marginTop:'20px'}} >
+        <TextField InputProps={{
+          startAdornment: (<InputAdornment position="start"><MdAccessTimeFilled /></InputAdornment>),}} className='registrationField' value={registration_hours_until_cancel} onChange={(e) => { setHoursUntilCancel(e.target.value) }} type={"number"} label='Hours Until Cancelling' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+
+        <div className='registrationField' style={{marginBottom:'50px', marginTop:'20px'}} >
           <FormLabel component="legend">Active Days</FormLabel>
          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', margin:'auto',marginTop:'13px', width:'70%'}} >
             <FormControlLabel
@@ -327,7 +344,7 @@ function Remove (day){
           
         </div>
 
-        <LoadingButton variant="contained" color="success" onClick={() => { AddRegistration(); }} loading={addRegistrationLoading} loadingPosition="end" endIcon={<AiFillCar />} >
+        <LoadingButton variant="contained" color="success" style={{marginBlock:'30px'}} onClick={() => { AddRegistration(); }} loading={addRegistrationLoading} loadingPosition="end" endIcon={<BsFillPlayFill />} >
         Schedule Registration
       </LoadingButton>
       </div>
