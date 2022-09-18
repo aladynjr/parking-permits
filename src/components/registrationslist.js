@@ -12,14 +12,30 @@ import { FaDotCircle } from 'react-icons/fa'
 
 import clsx from 'clsx';
 
+import ReactTimeAgo from 'react-time-ago'
+
+import {FaRobot} from 'react-icons/fa'
+
+
 function RegistrationsList({ registrations, setRegistrations }) {
+
 
   useEffect(() => {
     FetchRegistrations(setRegistrations)
   }, [])
-  console.log(registrations)
+
+  
+  
+var botTimeAgo = registrations?.filter((registration)=>{return registration?.registration_id=='1'})
+var botTimeAgoClean;
+if(registrations){
+  botTimeAgoClean = new Date((Number(botTimeAgo[0]?.registration_contact_phone))) ;
+}
+
+//turn activeTime to a date object without it showing invalid date
 
 
+console.log(registrations)
 
   return (
     <div>
@@ -31,7 +47,7 @@ function RegistrationsList({ registrations, setRegistrations }) {
         <div style={{ marginBlock:'7px' }}  > <FaDotCircle style={{ color: 'darkgrey' }} /> : Registration is Not Active  </div> 
          </div>
 
-
+     {registrations && <b style={{opacity:'0.9'}}> <FaRobot className='colorchangeanimation' style={{padding:'0px 6px'}} /> last bot activity : <ReactTimeAgo date={botTimeAgoClean} locale="en-US"/> </b>} 
 
       {registrations && <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -52,7 +68,7 @@ function RegistrationsList({ registrations, setRegistrations }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...registrations].reverse().map((registration) => {
+            {[...registrations].reverse().map((registration, i) => {
               var sameHour = Number(new Date().toLocaleString('en-US', { hour: 'numeric', hour12: true }).substring(0, 2)) == Number(registration?.registration_start_time.split(':')[0]);
               var sameMinute = (Number(registration?.registration_start_time.split(':')[1].substring(0, 2)) >= Number(String(new Date().getMinutes()).padStart(2, '0')) - 10) && (Number(registration?.registration_start_time.split(':')[1].substring(0, 2)) <= Number(String(new Date().getMinutes()).padStart(2, '0')) + 10);
               var sameAMPM = registration?.registration_start_time.substring(registration?.registration_start_time?.length - 2, registration?.registration_start_time?.length) == (new Date().getHours() >= 12 ? 'PM' : 'AM');
@@ -61,41 +77,39 @@ function RegistrationsList({ registrations, setRegistrations }) {
 
               var eligible = isActiveDay && sameHour && sameMinute && sameAMPM && startingDayPassed;
               if (eligible) {
-                console.log('eligible for registration,  id :', registration?.registration_id);
+              //  console.log('eligible for registration,  id :', registration?.registration_id);
               } else {
-                console.log('not eligible for registration, because of : ', ((!isActiveDay) ? ' not same day ' : ''), ((!sameHour) ? ' not same hour ' : ''), ((!sameMinute) ? 'not same minute' : ''), ((!sameAMPM) ? 'not same AM or PM  ' : ''), ((!startingDayPassed) ? 'start date is not reached '+ new Date(registration?.registration_start_date + ' ' + new Date().getFullYear()).toLocaleString() : ''), ', id : ', registration?.registration_id);
+               // console.log('not eligible for registration, because of : ', ((!isActiveDay) ? ' not same day ' : ''), ((!sameHour) ? ' not same hour ' : ''), ((!sameMinute) ? 'not same minute' : ''), ((!sameAMPM) ? 'not same AM or PM  ' : ''), ((!startingDayPassed) ? 'start date is not reached '+ new Date(registration?.registration_start_date + ' ' + new Date().getFullYear()).toLocaleString() : ''), ', id : ', registration?.registration_id);
               
               }
               //get start date and time in date format 
               var startDate = new Date(new Date().toDateString() + ' ' + new Date().getFullYear() + ' ' + registration?.registration_start_time);
               var endDate = new Date(startDate.getTime() + (Number(registration?.registration_hours_until_cancel) * 60 * 60 * 1000));
             
-          console.log({endDate})
-          console.log({startDate})
 
              
              
               return (
-                <TableRow
-                  key={registration.registration_id}
+                <TableRow 
+                  key={i}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
 
                   <TableCell component="th" scope="row" align="center">{registration.registration_id}</TableCell>
-                  <TableCell align="center"> <FaDotCircle className={clsx(eligible && 'animate__animated animate__pulse')} style={{ color: registration.registration_status ? 'limegreen' : 'darkgrey', fontSize: '25px' }} /> </TableCell>
+                  <TableCell align="center"> <FaDotCircle className={clsx((eligible && !registration.registration_status) && 'animate__animated animate__pulse', (registration.registration_status) && 'greencolor', (!registration.registration_status) && 'redcolor')} style={{fontSize: '25px' }} /> </TableCell>
                   <TableCell align="center">{registration.registration_apartment_number}</TableCell>
                   <TableCell align="center">{registration.registration_start_date}</TableCell>
                   <TableCell align="center">{registration.registration_start_time}</TableCell>
                   <TableCell align="center">{endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</TableCell>
 
                   <TableCell align="center">{registration.registration_hours_until_cancel} Hours</TableCell>
-                  <TableCell align="center">{registration?.registration_active_days?.map((day) => {
+                  <TableCell align="center">{registration?.registration_active_days?.map((day, i) => {
                     return (
-                      <b style={{ fontSize: '10px' }}> {day?.substring(0, 2)}. </b>
+                      <b key={i} style={{ fontSize: '10px' }}> {day?.substring(0, 2)}. </b>
                     )
                   })}</TableCell>
                   {/* <TableCell align="center">{new Date(registration.registration_timestamp).toLocaleString()}</TableCell> */}
-                  <TableCell align="center" style={{maxWidth:'200px'}} >{registration.registration_error && <p style={{color:'red'}} >{'Registration : ' + registration.registration_error} </p>} {registration.registration_cancel_error && <p style={{color:'darkred'}}> {'Cancellation : ' + registration.registration_cancel_error}</p>}</TableCell>
+                  <TableCell align="center" style={{maxWidth:'200px', fontSize:'12px'}} >{registration.registration_error && <div style={{color:'red'}} >{'  • Registration •  ' + registration.registration_error} </div>} {registration.registration_cancel_error && <div style={{color:'darkred'}}> {'  • Cancellation •  ' + registration.registration_cancel_error}</div>}</TableCell>
 
 
                 </TableRow>

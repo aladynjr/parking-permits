@@ -43,7 +43,13 @@ body {
 
 .animate__pulse{
   animation-iteration-count: infinite!important;
-  color: cornflowerblue!important; 
+  color: rgb(41, 104, 223)!important; 
+}
+.greencolor {
+  color: limegreen;
+}
+.redcolor {
+  color: darkgrey;
 }
 
 .registrationField {
@@ -51,3 +57,22 @@ body {
   width:70%!important;
   max-width: 500px!important;
 }
+
+//animation of color that chanegs color fro mblack to red every 2 seconds 
+@keyframes colorChange {
+  0% {
+    color: black;
+  }
+  50% {
+    color: red;
+  }
+  100% {
+    color: black;
+  }
+}
+.colorchangeanimation {
+  animation: colorChange 2s infinite;
+  
+}
+
+

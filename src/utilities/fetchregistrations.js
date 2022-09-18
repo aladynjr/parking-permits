@@ -4,6 +4,7 @@ const FetchRegistrations = async (setData) => {
         const jsonData = await response.json();
 
         setData(jsonData);
+        console.log(jsonData)
     } catch (err) {
         console.error(err.message);
 
