@@ -1,7 +1,6 @@
 
 
 echo "Building app ..."
-npm run build 
 
 echo "Deploying files to server...."
 

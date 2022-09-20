@@ -46,29 +46,25 @@ const [startingDateOptions, setStartingDateOptions] = useState([]);
 
 
 
-
-function AddTheNextSevenDaysInArrayINThisFormatDayNameMonthNameDayNumber(){
+function AddTheNextSevenDaysInArrayINThisFormatYearNumberDashMonthNumberTwoDigitsDashDayNumberTwoDigitsDash(){
   var arr = [];
   var d = new Date();
   for (var i = 0; i < 7; i++) {
-    var day = d.getDate();
+    var day = d.getDate()-1;
     var month = d.getMonth() + 1;
     var year = d.getFullYear();
-    var dayName = d.toLocaleString('default', { weekday: 'long' });
-    var monthName = d.toLocaleString('default', { month: 'long' });
-    arr.push( (dayName).substring(0,3) + ' ' + monthName.substring(0,3) + ' ' + day);
+    var dayName = d.toLocaleString('en-us', { weekday: 'long',timeZone: "America/Los_Angeles" });
+    var monthName = d.toLocaleString('en-us', { month: 'long' ,timeZone: "America/Los_Angeles"});
+    arr.push( year + '-' + (String(month).length== 1 ? '0'+String(month) : month ) + '-' + (String(day).length== 1 ? '0'+String(day) : day ));
     d.setDate(d.getDate() + 1);
   }
   setStartingDateOptions(arr)
 }
-
 useEffect(()=>{
-  AddTheNextSevenDaysInArrayINThisFormatDayNameMonthNameDayNumber()
+  AddTheNextSevenDaysInArrayINThisFormatYearNumberDashMonthNumberTwoDigitsDashDayNumberTwoDigitsDash()
 },[])
 
-
-
-  const handleChange = (event, setValue) => {
+const handleChange = (event, setValue) => {
     setValue(event.target.value);
   };
 
@@ -132,6 +128,31 @@ function Remove (day){
   setActiveDays(arr);
 }
 
+const [startTimeOptions, setStartTimeOptions] = useState([]);
+
+function AddTimeToArrayOFWholeDayWithoutAmOrPmEvery15minutesStartingFromMidnightAndRemoveTheLastThreeItemsFromArray(){
+  var arr = [];
+  var d = new Date();
+  d.setHours(0,0,0,0)
+  for (var i = 0; i < 96; i++) {
+    var hour = d.getHours();
+    var minute = d.getMinutes();
+    arr.push( (String(hour).length== 1 ? '0'+String(hour) : hour ) + ':' + (String(minute).length== 1 ? '0'+String(minute) : minute ));
+    d.setMinutes(d.getMinutes() + 15);
+  }
+  arr.pop()
+  arr.pop()
+  arr.pop()
+  setStartTimeOptions(arr)
+
+
+
+}
+useEffect(()=>{
+  AddTimeToArrayOFWholeDayWithoutAmOrPmEvery15minutesStartingFromMidnightAndRemoveTheLastThreeItemsFromArray()
+},[])
+
+console.log({startTimeOptions})
 
   return (
     <div>
@@ -165,99 +186,10 @@ function Remove (day){
         <FormControl className='registrationField' >
           <InputLabel id="demo-simple-select-label">Starting Time</InputLabel>
           <Select value={registration_start_time} onChange={(e) => handleChange(e, setStartTime)} label="Starting Time" >
-            <MenuItem value="12:00 AM">12:00 AM</MenuItem>
-            <MenuItem value="12:15 AM">12:15 AM</MenuItem>
-            <MenuItem value="12:30 AM">12:30 AM</MenuItem>
-            <MenuItem value="12:45 AM">12:45 AM</MenuItem>
-            <MenuItem value="1:00 AM">1:00 AM</MenuItem>
-            <MenuItem value="1:15 AM">1:15 AM</MenuItem>
-            <MenuItem value="1:30 AM">1:30 AM</MenuItem>
-            <MenuItem value="1:45 AM">1:45 AM</MenuItem>
-            <MenuItem value="2:00 AM">2:00 AM</MenuItem>
-            <MenuItem value="2:15 AM">2:15 AM</MenuItem>
-            <MenuItem value="2:30 AM">2:30 AM</MenuItem>
-            <MenuItem value="2:45 AM">2:45 AM</MenuItem>
-            <MenuItem value="3:00 AM">3:00 AM</MenuItem>
-            <MenuItem value="3:15 AM">3:15 AM</MenuItem>
-            <MenuItem value="3:30 AM">3:30 AM</MenuItem>
-            <MenuItem value="3:45 AM">3:45 AM</MenuItem>
-            <MenuItem value="4:00 AM">4:00 AM</MenuItem>
-            <MenuItem value="4:15 AM">4:15 AM</MenuItem>
-            <MenuItem value="4:30 AM">4:30 AM</MenuItem>
-            <MenuItem value="4:45 AM">4:45 AM</MenuItem>
-            <MenuItem value="5:00 AM">5:00 AM</MenuItem>
-            <MenuItem value="5:15 AM">5:15 AM</MenuItem>
-            <MenuItem value="5:30 AM">5:30 AM</MenuItem>
-            <MenuItem value="5:45 AM">5:45 AM</MenuItem>
-            <MenuItem value="6:00 AM">6:00 AM</MenuItem>
-            <MenuItem value="6:15 AM">6:15 AM</MenuItem>
-            <MenuItem value="6:30 AM">6:30 AM</MenuItem>
-            <MenuItem value="6:45 AM">6:45 AM</MenuItem>
-            <MenuItem value="7:00 AM">7:00 AM</MenuItem>
-            <MenuItem value="7:15 AM">7:15 AM</MenuItem>
-            <MenuItem value="7:30 AM">7:30 AM</MenuItem>
-            <MenuItem value="7:45 AM">7:45 AM</MenuItem>
-            <MenuItem value="8:00 AM">8:00 AM</MenuItem>
-            <MenuItem value="8:15 AM">8:15 AM</MenuItem>
-            <MenuItem value="8:30 AM">8:30 AM</MenuItem>
-            <MenuItem value="8:45 AM">8:45 AM</MenuItem>
-            <MenuItem value="9:00 AM">9:00 AM</MenuItem>
-            <MenuItem value="9:15 AM">9:15 AM</MenuItem>
-            <MenuItem value="9:30 AM">9:30 AM</MenuItem>
-            <MenuItem value="9:45 AM">9:45 AM</MenuItem>
-            <MenuItem value="10:00 AM">10:00 AM</MenuItem>
-            <MenuItem value="10:15 AM">10:15 AM</MenuItem>
-            <MenuItem value="10:30 AM">10:30 AM</MenuItem>
-            <MenuItem value="10:45 AM">10:45 AM</MenuItem>
-            <MenuItem value="11:00 AM">11:00 AM</MenuItem>
-            <MenuItem value="11:15 AM">11:15 AM</MenuItem>
-            <MenuItem value="11:30 AM">11:30 AM</MenuItem>
-            <MenuItem value="11:45 AM">11:45 AM</MenuItem>
-            <MenuItem value="12:00 PM">12:00 PM</MenuItem>
-            <MenuItem value="12:15 PM">12:15 PM</MenuItem>
-            <MenuItem value="12:30 PM">12:30 PM</MenuItem>
-            <MenuItem value="12:45 PM">12:45 PM</MenuItem>
-            <MenuItem value="1:00 PM">1:00 PM</MenuItem>
-            <MenuItem value="1:15 PM">1:15 PM</MenuItem>
-            <MenuItem value="1:30 PM">1:30 PM</MenuItem>
-            <MenuItem value="1:45 PM">1:45 PM</MenuItem>
-            <MenuItem value="2:00 PM">2:00 PM</MenuItem>
-            <MenuItem value="2:15 PM">2:15 PM</MenuItem>
-            <MenuItem value="2:30 PM">2:30 PM</MenuItem>
-            <MenuItem value="2:45 PM">2:45 PM</MenuItem>
-            <MenuItem value="3:00 PM">3:00 PM</MenuItem>
-            <MenuItem value="3:15 PM">3:15 PM</MenuItem>
-            <MenuItem value="3:30 PM">3:30 PM</MenuItem>
-            <MenuItem value="3:45 PM">3:45 PM</MenuItem>
-            <MenuItem value="4:00 PM">4:00 PM</MenuItem>
-            <MenuItem value="4:15 PM">4:15 PM</MenuItem>
-            <MenuItem value="4:30 PM">4:30 PM</MenuItem>
-            <MenuItem value="4:45 PM">4:45 PM</MenuItem>
-            <MenuItem value="5:00 PM">5:00 PM</MenuItem>
-            <MenuItem value="5:15 PM">5:15 PM</MenuItem>
-            <MenuItem value="5:30 PM">5:30 PM</MenuItem>
-            <MenuItem value="5:45 PM">5:45 PM</MenuItem>
-            <MenuItem value="6:00 PM">6:00 PM</MenuItem>
-            <MenuItem value="6:15 PM">6:15 PM</MenuItem>
-            <MenuItem value="6:30 PM">6:30 PM</MenuItem>
-            <MenuItem value="6:45 PM">6:45 PM</MenuItem>
-            <MenuItem value="7:00 PM">7:00 PM</MenuItem>
-            <MenuItem value="7:15 PM">7:15 PM</MenuItem>
-            <MenuItem value="7:30 PM">7:30 PM</MenuItem>
-            <MenuItem value="7:45 PM">7:45 PM</MenuItem>
-            <MenuItem value="8:00 PM">8:00 PM</MenuItem>
-            <MenuItem value="8:15 PM">8:15 PM</MenuItem>
-            <MenuItem value="8:30 PM">8:30 PM</MenuItem>
-            <MenuItem value="8:45 PM">8:45 PM</MenuItem>
-            <MenuItem value="9:00 PM">9:00 PM</MenuItem>
-            <MenuItem value="9:15 PM">9:15 PM</MenuItem>
-            <MenuItem value="9:30 PM">9:30 PM</MenuItem>
-            <MenuItem value="9:45 PM">9:45 PM</MenuItem>
-            <MenuItem value="10:00 PM">10:00 PM</MenuItem>
-            <MenuItem value="10:15 PM">10:15 PM</MenuItem>
-            <MenuItem value="10:30 PM">10:30 PM</MenuItem>
-            <MenuItem value="10:45 PM">10:45 PM</MenuItem>
-            <MenuItem value="11:00 PM">11:00 PM</MenuItem>
+            {startTimeOptions.map((time)=>{return(
+              <MenuItem value={time}>{time}</MenuItem>
+            )})}
+
           </Select>
         </FormControl>
 
@@ -265,21 +197,22 @@ function Remove (day){
         <FormControl className='registrationField' >
           <InputLabel id="demo-simple-select-label">Parking Duration</InputLabel>
           <Select value={registration_parking_duration} onChange={(e) => handleChange(e, setParkingDuration)} label='Parking Duration' >
-            <MenuItem value="1 day">1 day</MenuItem>
-            <MenuItem value="2 days">2 days</MenuItem>
-            <MenuItem value="3 days">3 days</MenuItem>
-            <MenuItem value="4 days">4 days</MenuItem>
-            <MenuItem value="5 days">5 days</MenuItem>
-            <MenuItem value="6 days">6 days</MenuItem>
-            <MenuItem value="7 days">7 days</MenuItem>
-            <MenuItem value="8 days">8 days</MenuItem>
-            <MenuItem value="9 days">9 days</MenuItem>
-            <MenuItem value="10 days">10 days</MenuItem>
-            <MenuItem value="11 days">11 days</MenuItem>
-            <MenuItem value="12 days">12 days</MenuItem>
-            <MenuItem value="13 days">13 days</MenuItem>
-            <MenuItem value="14 days">14 days</MenuItem>
-            <MenuItem value="15 days">15 days</MenuItem>
+            <MenuItem value="PT24H">1 day</MenuItem>
+            <MenuItem value="PT48H">2 days</MenuItem>
+            <MenuItem value="PT72H">3 days</MenuItem>
+            <MenuItem value="PT96H">4 days</MenuItem>
+            <MenuItem value="PT120H">5 days</MenuItem>
+            <MenuItem value="PT144H">6 days</MenuItem>
+            <MenuItem value="PT168H">7 days</MenuItem>
+            <MenuItem value="PT192H">8 days</MenuItem>
+            <MenuItem value="PT216H">9 days</MenuItem>
+            <MenuItem value="PT240H">10 days</MenuItem>
+            <MenuItem value="PT264H">11 days</MenuItem>
+            <MenuItem value="PT288H">12 days</MenuItem>
+            <MenuItem value="PT312H">13 days</MenuItem>
+            <MenuItem value="PT336H">14 days</MenuItem>
+            <MenuItem value="PT360H">15 days</MenuItem>
+
           </Select>
           <FormHelperText>Choose any value. The Permit is gonna get cancelled anyway</FormHelperText>
         </FormControl>
