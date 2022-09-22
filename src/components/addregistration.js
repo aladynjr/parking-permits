@@ -194,7 +194,7 @@ console.log({startTimeOptions})
         </FormControl>
 
 
-        <FormControl className='registrationField' >
+        {/* <FormControl className='registrationField' >
           <InputLabel id="demo-simple-select-label">Parking Duration</InputLabel>
           <Select value={registration_parking_duration} onChange={(e) => handleChange(e, setParkingDuration)} label='Parking Duration' >
             <MenuItem value="PT24H">1 day</MenuItem>
@@ -215,7 +215,7 @@ console.log({startTimeOptions})
 
           </Select>
           <FormHelperText>Choose any value. The Permit is gonna get cancelled anyway</FormHelperText>
-        </FormControl>
+        </FormControl> */}
 
 
         <TextField InputProps={{
@@ -229,7 +229,7 @@ console.log({startTimeOptions})
        
 
         <TextField InputProps={{
-          startAdornment: (<InputAdornment position="start"><MdAccessTimeFilled /></InputAdornment>),}} className='registrationField' value={registration_hours_until_cancel} onChange={(e) => { setHoursUntilCancel(e.target.value) }} type={"number"} label='Hours Until Cancelling' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+          startAdornment: (<InputAdornment position="start"><MdAccessTimeFilled /></InputAdornment>),}} className='registrationField' value={registration_hours_until_cancel} onChange={(e) => {setHoursUntilCancel(e.target.value)  }} type={"number"} label='Hours Until Cancelling' error={(Number(registration_start_time.split(':')[0])+Number(registration_hours_until_cancel))>23} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} helperText={'Permit Should Not Last Until After 23:00 '} />
 
         <div className='registrationField' style={{marginBottom:'50px', marginTop:'20px'}} >
           <FormLabel component="legend">Active Days</FormLabel>
